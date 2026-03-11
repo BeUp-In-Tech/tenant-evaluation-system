@@ -1,0 +1,11 @@
+services:
+  - type: static_site
+    name: tenant-evaluation-system
+    buildCommand: npm install && npm run build
+    publishDirectory: build
+    autoDeploy: true
+    redirects:
+      - from: "/"
+        to: "/index.html"
+      - from: "/:path"
+        to: "/index.html"
