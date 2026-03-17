@@ -69,20 +69,112 @@ const heatmapDays = [
 
 function DayCell({ day, status, onClick }) {
   const config = {
-    completed: { bg: "bg-green-50 border-green-200", icon: <path d="M8 12l3 3 5-5" stroke="#22c55e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /> },
-    late: { bg: "bg-yellow-50 border-yellow-200", icon: <><circle cx="12" cy="12" r="9" stroke="#f59e0b" strokeWidth="1.8" /><path d="M12 8v4" stroke="#f59e0b" strokeWidth="1.8" strokeLinecap="round" /><circle cx="12" cy="16" r="1" fill="#f59e0b" /></> },
-    missed: { bg: "bg-red-50 border-red-200", icon: <><line x1="15" y1="9" x2="9" y2="15" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" /><line x1="9" y1="9" x2="15" y2="15" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" /></> },
+    completed: {
+      bg: "bg-green-100 border-green-200",
+      icon: (
+        <path
+          d="M8 12l3 3 5-5"
+          stroke="#16a34a"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      ),
+    },
+    late: {
+      bg: "bg-yellow-100 border-yellow-200",
+      icon: (
+        <>
+          <rect x="7" y="7" width="10" height="10" rx="2" stroke="#ca8a04" strokeWidth="2.5"/>
+          <path d="M12 9v4" stroke="#ca8a04" strokeWidth="2.5" strokeLinecap="round"/>
+          <circle cx="12" cy="15" r="1" fill="#ca8a04"/>
+        </>
+      ),
+    },
+    missed: {
+      bg: "bg-red-100 border-red-200",
+      icon: (
+        <>
+          <line x1="15" y1="9" x2="9" y2="15" stroke="#ef4444" strokeWidth="3" strokeLinecap="round"/>
+          <line x1="9" y1="9" x2="15" y2="15" stroke="#ef4444" strokeWidth="3" strokeLinecap="round"/>
+        </>
+      ),
+    },
   };
+
   const c = config[status];
+
   return (
-    <div className="flex flex-col items-center gap-2">
-      <div 
-        onClick={() => onClick(day, status)}
-        className={`w-16 h-16 rounded-2xl border flex items-center justify-center cursor-pointer hover:scale-105 transition-transform ${c.bg}`}
+    <div className="flex flex-col items-center gap-3">
+      <div
+        onClick={() => onClick && onClick(day, status)}
+        className={`w-28 h-24 rounded-xl border flex items-center justify-center cursor-pointer hover:scale-105 transition-transform ${c.bg}`}
       >
-        <svg width="22" height="22" fill="none" viewBox="0 0 24 24">{c.icon}</svg>
+        <svg width="36" height="36" fill="none" viewBox="0 0 24 24">
+          {c.icon}
+        </svg>
       </div>
-      <span className="text-[10px] text-gray-400 font-semibold uppercase tracking-wide">Day {day}</span>
+
+      <span className="text-xs text-gray-400 font-semibold uppercase">
+        Day {day}
+      </span>
+    </div>
+  );
+}
+
+function CycleRiskHeatmap({ days, onDayClick }) {
+  return (
+    <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 w-full mb-6">
+      {/* Header */}
+      <div className="flex justify-between items-center mb-8">
+        <h2 className="text-lg font-bold text-gray-900">
+          Cycle Risk Heatmap
+        </h2>
+
+        <div className="bg-green-100 text-green-700 px-4 py-1 rounded-full text-xs font-semibold flex items-center gap-2">
+          <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+          CYCLE STATUS: ON TRACK
+        </div>
+      </div>
+
+      {/* Days */}
+      <div className="flex gap-6 justify-between">
+        {days.map((d, i) => (
+          <DayCell 
+            key={i} 
+            day={d.day || i + 1} 
+            status={d.status || d} 
+            onClick={onDayClick} 
+          />
+        ))}
+      </div>
+
+      {/* Divider */}
+      <div className="border-t border-gray-100 my-6"></div>
+
+      {/* Footer */}
+      <div className="flex justify-between items-center text-sm text-gray-500">
+        <p className="italic text-[13px]">
+          "Consistent participation helps maintain stable communication and tenancy progress."
+        </p>
+
+        <div className="flex gap-6 items-center">
+          <div className="flex items-center gap-2">
+            <span className="w-3 h-3 bg-green-500 rounded-full"></span>
+            Completed
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="w-3 h-3 bg-yellow-500 rounded-full"></span>
+            Late
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="w-3 h-3 bg-red-500 rounded-full"></span>
+            Missed
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -161,41 +253,7 @@ export default function MyReliabilityPage({ onNavigate }) {
         </div>
 
         {/* Cycle Risk Heatmap */}
-        <div className="bg-white border border-gray-100 rounded-2xl p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-[15px] font-bold text-gray-900">Cycle Risk Heatmap</h2>
-            <div className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-green-500" />
-              <span className="text-[12px] font-bold text-green-600 uppercase tracking-wide">Cycle Status: On Track</span>
-            </div>
-          </div>
-
-          {/* Day cells */}
-          <div className="flex justify-between mb-6">
-            {heatmapDays.map((d) => (
-              <DayCell key={d.day} day={d.day} status={d.status} onClick={handleDayClick} />
-            ))}
-          </div>
-
-          {/* Footer */}
-          <div className="flex items-center justify-between border-t border-gray-100 pt-4">
-            <p className="text-[13px] text-gray-500 italic">
-              "Consistent participation helps maintain stable communication and tenancy progress."
-            </p>
-            <div className="flex items-center gap-4 shrink-0">
-              {[
-                { label: "Completed", color: "bg-green-500" },
-                { label: "Late", color: "bg-amber-400" },
-                { label: "Missed", color: "bg-red-500" },
-              ].map((l) => (
-                <div key={l.label} className="flex items-center gap-1.5">
-                  <span className={`w-2.5 h-2.5 rounded-full ${l.color}`} />
-                  <span className="text-[12px] text-gray-500">{l.label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+        <CycleRiskHeatmap days={heatmapDays} onDayClick={handleDayClick} />
       </main>
     </div>
   );

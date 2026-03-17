@@ -99,8 +99,7 @@ export default function MyTasksPage({ onNavigate }) {
 
 
       <main className="ml-48 pt-14 p-6 flex justify-center">
-
-        <div className="w-full max-w-2xl">
+        <div className="w-full max-w-[80vw] mt-6">
 
           {/* Header */}
 

@@ -110,9 +110,9 @@ export default function TenantOverviewPage({ onNavigate }) {
 
   const handleTaskComplete = (taskId) => {
 
-    setTasks(tasks.map(task => 
+    setTasks(tasks.map(task =>
 
-      task.id === taskId 
+      task.id === taskId
 
         ? { ...task, completed: true, status: "COMPLETED", statusColor: "text-green-500", statusDot: "bg-green-500" }
 
@@ -174,9 +174,7 @@ export default function TenantOverviewPage({ onNavigate }) {
 
         {/* Main Grid */}
 
-        <div className="grid grid-cols-2 gap-5 mb-5">
-
-
+        <div className="grid grid-cols-[30%_70%] gap-5 mb-5">
 
           {/* Progress Overview */}
 
@@ -195,8 +193,6 @@ export default function TenantOverviewPage({ onNavigate }) {
               </svg>
 
             </div>
-
-
 
             {/* Participation Rate */}
 
@@ -304,7 +300,7 @@ export default function TenantOverviewPage({ onNavigate }) {
 
               {tasks.map((task) => (
 
-                <div key={task.id} className={`flex items-center gap-4 p-3 rounded-xl ${task.completed ? "opacity-70" : ""}`}>
+                <div key={task.id} className={`flex items-center gap-4 p-3 rounded-xl ${task.completed ? "opacity-70" : ""} bg-gray-100`}>
 
                   <div className="shrink-0">{task.icon}</div>
 
@@ -340,9 +336,9 @@ export default function TenantOverviewPage({ onNavigate }) {
 
                       className={`px-3 py-1.5 rounded-lg text-[11px] font-semibold transition-all ${task.completed
 
-                          ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                        ? "bg-gray-100 text-gray-400 cursor-not-allowed border-gray-50"
 
-                          : "bg-blue-600 text-white hover:bg-blue-700"
+                        : "bg-blue-600 text-white hover:bg-blue-700"
 
                         }`}
 
@@ -352,7 +348,7 @@ export default function TenantOverviewPage({ onNavigate }) {
 
                     </button>
 
-                    <button 
+                    <button
 
                       onClick={() => handleTaskDetails(task.id)}
 
@@ -396,11 +392,27 @@ export default function TenantOverviewPage({ onNavigate }) {
 
         </div>
 
+        {/* Help Button */}
 
+        <button className="fixed bottom-6 right-6 flex items-center gap-2 bg-blue-600 text-white text-[13px] font-semibold px-4 py-3 rounded-full shadow-lg hover:bg-blue-700 transition-all">
+
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24">
+
+            <circle cx="12" cy="12" r="9" stroke="white" strokeWidth="1.8" />
+
+            <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3" stroke="white" strokeWidth="1.8" strokeLinecap="round" />
+
+            <circle cx="12" cy="17" r="1" fill="white" />
+
+          </svg>
+
+          Need Help with task?Contact Support
+
+        </button>
 
         {/* Warning Banner */}
 
-        <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-start gap-3">
+        {/* <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex items-start gap-3">
 
           <svg width="18" height="18" fill="none" viewBox="0 0 24 24" className="shrink-0 mt-0.5">
 
@@ -428,29 +440,9 @@ export default function TenantOverviewPage({ onNavigate }) {
 
           </div>
 
-        </div>
+        </div> */}
 
       </main>
-
-
-
-      {/* Help Button */}
-
-      <button className="fixed bottom-6 right-6 flex items-center gap-2 bg-blue-600 text-white text-[13px] font-semibold px-4 py-3 rounded-full shadow-lg hover:bg-blue-700 transition-all">
-
-        <svg width="16" height="16" fill="none" viewBox="0 0 24 24">
-
-          <circle cx="12" cy="12" r="9" stroke="white" strokeWidth="1.8" />
-
-          <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3" stroke="white" strokeWidth="1.8" strokeLinecap="round" />
-
-          <circle cx="12" cy="17" r="1" fill="white" />
-
-        </svg>
-
-        Need Help?
-
-      </button>
 
     </div>
 
