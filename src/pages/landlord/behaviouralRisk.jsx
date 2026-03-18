@@ -15,7 +15,7 @@ const tenants = [
         name: "Jordan Hayes", property: "Stacie Heights A-152", level: "LEVEL 2",
         riskTag: "ELEVATED RISK", riskColor: "text-orange-500", tagBg: "bg-orange-100",
         riskPct: 42, riskBarColor: "bg-orange-400",
-        participation: 58, participationDelta: "+18%", participationNote: "1 alert requires action",
+        participation: 68, participationDelta: "+18%", participationNote: "1 alert requires action",
         noteColor: "text-orange-500",
         primaryAction: { label: "Review Engagement", color: "bg-orange-500 hover:bg-orange-600 text-white" },
     },
@@ -57,7 +57,7 @@ function TenantCard({ t }) {
             </div>
 
             {/* Behavioral Risk Level */}
-            <div className="mb-3">
+            {/* <div className="mb-3">
                 <div className="flex items-center justify-between mb-1">
                     <span className="text-[10px] text-gray-400 font-semibold uppercase tracking-wide">Behavioural Risk Level</span>
                     <span className={`text-[12px] font-bold ${t.riskColor}`}>{t.riskPct}%</span>
@@ -65,7 +65,7 @@ function TenantCard({ t }) {
                 <div className="w-full h-2 bg-gray-100 rounded-full">
                     <div className={`h-2 rounded-full ${t.riskBarColor}`} style={{ width: `${t.riskPct}%` }} />
                 </div>
-            </div>
+            </div> */}
 
             {/* Participation */}
             <div className="mb-4">
@@ -129,14 +129,14 @@ export default function BehaviouralRiskPage({ onNavigate }) {
                 filtered = filtered.filter(t => t.riskTag === "STABLE");
             } else if (activeTab === "At Risk") {
                 filtered = filtered.filter(t => t.riskTag === "ELEVATED RISK");
-            } else if (activeTab === "Dropped Participation") {
+            } else if (activeTab === "Early Warning Signals") {
                 filtered = filtered.filter(t => t.participation < 50);
             }
         }
 
         // Filter by search term
         if (searchTerm) {
-            filtered = filtered.filter(t => 
+            filtered = filtered.filter(t =>
                 t.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 t.property.toLowerCase().includes(searchTerm.toLowerCase())
             );
@@ -174,9 +174,9 @@ export default function BehaviouralRiskPage({ onNavigate }) {
                 {/* Summary */}
                 <div className="grid grid-cols-3 gap-3 mb-6">
                     {[
-                        { label: "AT RISK TENANTS", val: "2", icon: <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="#ef4444" strokeWidth="1.8" /></svg>, color: "text-red-500" },
-                        { label: "DROPPED PARTICIPATION", val: "2", icon: <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="#f59e0b" strokeWidth="1.8" /><path d="M12 8v4" stroke="#f59e0b" strokeWidth="1.8" strokeLinecap="round" /><circle cx="12" cy="16" r="1" fill="#f59e0b" /></svg>, color: "text-amber-500" },
-                        { label: "STABLE TENANTS", val: "4", icon: <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="#22c55e" strokeWidth="1.8" /><path d="M8 12l3 3 5-5" stroke="#22c55e" strokeWidth="1.8" strokeLinecap="round" /></svg>, color: "text-green-500" },
+                        { label: "Requires Attention", val: "2", icon: <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="#ef4444" strokeWidth="1.8" /></svg>, color: "text-red-500" },
+                        { label: "Early Warning Signals", val: "2", icon: <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="#f59e0b" strokeWidth="1.8" /><path d="M12 8v4" stroke="#f59e0b" strokeWidth="1.8" strokeLinecap="round" /><circle cx="12" cy="16" r="1" fill="#f59e0b" /></svg>, color: "text-amber-500" },
+                        { label: "Stable Participation", val: "4", icon: <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="#22c55e" strokeWidth="1.8" /><path d="M8 12l3 3 5-5" stroke="#22c55e" strokeWidth="1.8" strokeLinecap="round" /></svg>, color: "text-green-500" },
                     ].map((s) => (
                         <div key={s.label} className="bg-white border border-gray-100 rounded-xl p-4 flex items-center gap-4">
                             {s.icon}
@@ -195,17 +195,17 @@ export default function BehaviouralRiskPage({ onNavigate }) {
                             <circle cx="11" cy="11" r="8" stroke="currentColor" strokeWidth="1.8" />
                             <path d="M21 21l-4.35-4.35" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
                         </svg>
-                        <input 
+                        <input
                             value={searchTerm}
                             onChange={handleSearch}
-                            className="pl-9 pr-4 py-2 text-[13px] bg-white border border-gray-200 rounded-lg w-72 placeholder-gray-400 focus:outline-none focus:border-blue-300 transition-all" 
-                            placeholder="Search by tenant name or property..." 
+                            className="pl-9 pr-4 py-2 text-[13px] bg-white border border-gray-200 rounded-lg w-72 placeholder-gray-400 focus:outline-none focus:border-blue-300 transition-all"
+                            placeholder="Search by tenant name or property..."
                         />
                     </div>
                     <div className="flex gap-1">
-                        {["All", "Stable", "At Risk", "Dropped Participation"].map((tab) => (
-                            <button 
-                                key={tab} 
+                        {["All", "Stable", "At Risk", "Early Warning Signals"].map((tab) => (
+                            <button
+                                key={tab}
                                 onClick={() => handleTabChange(tab)}
                                 className={`px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all ${tab === activeTab ? "bg-blue-600 text-white" : "text-gray-500 hover:bg-gray-100"}`}
                             >

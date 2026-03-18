@@ -2,10 +2,10 @@ import AffiliateSidebar from "../../component/affiliateComponent/affiliteSidebar
 import AffiliateTopbar from "../../component/affiliateComponent/affiliteTopbar.jsx";
 
 const payoutHistory = [
-  { date: "Mar 15, 2024", amount: "$1,250.00", method: "Stripe Connect", status: "Processing", statusColor: "text-amber-500", statusBg: "bg-amber-50" },
-  { date: "Feb 15, 2024", amount: "$1,120.00", method: "Stripe Connect", status: "Paid", statusColor: "text-green-600", statusBg: "bg-green-50" },
-  { date: "Jan 15, 2024", amount: "$980.50", method: "Stripe Connect", status: "Paid", statusColor: "text-green-600", statusBg: "bg-green-50" },
-  { date: "Dec 15, 2023", amount: "$1,450.00", method: "Stripe Connect", status: "Paid", statusColor: "text-green-600", statusBg: "bg-green-50" },
+  { id: "tr_8fK2L9A3", date: "Mar 15, 2024", amount: "$1,250.00", method: "Stripe Connect", status: "Processing", statusColor: "text-amber-500", statusBg: "bg-amber-50" },
+  { id: "tr_7jL1M8B2", date: "Feb 15, 2024", amount: "$1,120.00", method: "Stripe Connect", status: "Paid", statusColor: "text-green-600", statusBg: "bg-green-50" },
+  { id: "tr_6iK0N7C1", date: "Jan 15, 2024", amount: "$980.50", method: "Stripe Connect", status: "Paid", statusColor: "text-green-600", statusBg: "bg-green-50" },
+  { id: "tr_5hJ9O6D0", date: "Dec 15, 2023", amount: "$1,450.00", method: "Stripe Connect", status: "Paid", statusColor: "text-green-600", statusBg: "bg-green-50" },
 ];
 
 const howItWorks = [
@@ -77,9 +77,9 @@ export default function PayoutPage({ onNavigate }) {
             <div>
               <div className="text-[10px] text-gray-400 font-semibold uppercase tracking-widest mb-2">Available for Payout</div>
               <div className="text-[28px] font-bold text-gray-900 mb-3">$1,250.00</div>
-              <button className="w-full py-2.5 bg-blue-600 text-white text-[13px] font-semibold rounded-xl hover:bg-blue-700 transition-all">
-                Request Early Payout
-              </button>
+              <div className="text-[11px] text-blue-600 font-medium bg-blue-50 px-3 py-2 rounded-lg">
+                Estimated Payout: Mar 15, 2024
+              </div>
             </div>
           </div>
         </div>
@@ -148,6 +148,7 @@ export default function PayoutPage({ onNavigate }) {
             <table className="w-full text-[12px]">
               <thead>
                 <tr className="border-b border-gray-100 text-[11px] text-gray-400 font-semibold uppercase tracking-wide">
+                  <th className="text-left pb-3">Transfer ID</th>
                   <th className="text-left pb-3">Date</th>
                   <th className="text-left pb-3">Amount</th>
                   <th className="text-left pb-3">Method</th>
@@ -156,7 +157,8 @@ export default function PayoutPage({ onNavigate }) {
               </thead>
               <tbody className="divide-y divide-gray-50">
                 {payoutHistory.map((p) => (
-                  <tr key={p.date + p.amount}>
+                  <tr key={p.id}>
+                    <td className="py-3.5 font-mono text-[11px] text-gray-500">{p.id}</td>
                     <td className="py-3.5 text-gray-600">{p.date}</td>
                     <td className="py-3.5 font-semibold text-gray-800">{p.amount}</td>
                     <td className="py-3.5 text-gray-500">{p.method}</td>

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { BarChart, Bar, XAxis, ResponsiveContainer, Tooltip } from "recharts";
 import AffiliateSidebar from "../../component/affiliateComponent/affiliteSidebar.jsx";
 import AffiliateTopbar from "../../component/affiliateComponent/affiliteTopbar.jsx";
@@ -16,12 +17,23 @@ const chartLabels = [
 ];
 
 const commissions = [
-  { id: "#A1024", plan: "Enterprise Annual", revenue: "$1,249.00", commission: "$249.80", stage: "Converted", stageColor: "bg-green-100 text-green-700", status: "Approved", statusDot: "bg-green-500" },
-  { id: "#A1025", plan: "Pro Monthly", revenue: "$49.00", commission: "$9.80", stage: "Assessment Started", stageColor: "bg-blue-100 text-blue-700", status: "Pending", statusDot: "bg-amber-400" },
-  { id: "#A1028", plan: "Pro Annual", revenue: "$499.00", commission: "$99.80", stage: "Dropped - Day 3", stageColor: "bg-red-100 text-red-600", status: "Pending", statusDot: "bg-amber-400" },
+  { id: "#A1024", user: "John Carter", signupDate: "Feb 12", source: "Facebook", plan: "Enterprise Annual", revenue: "$1,249.00", commission: "$249.80", stage: "Converted", stageColor: "bg-green-100 text-green-700", status: "Approved", statusDot: "bg-green-500" },
+  { id: "#A1025", user: "Sarah Jenkins", signupDate: "Mar 02", source: "LinkedIn", plan: "Pro Monthly", revenue: "$49.00", commission: "$9.80", stage: "Pre-Tenancy Started", stageColor: "bg-blue-100 text-blue-700", status: "Pending", statusDot: "bg-amber-400" },
+  { id: "#A1028", user: "Mike Ross", signupDate: "Mar 08", source: "Direct", plan: "Pro Annual", revenue: "$499.00", commission: "$99.80", stage: "Dropped - Day 3", stageColor: "bg-red-100 text-red-600", status: "Pending", statusDot: "bg-amber-400" },
 ];
 
 export default function CommissionsPage({ onNavigate }) {
+  const [selectedReferral, setSelectedReferral] = useState(null);
+
+  const timelineEvents = [
+    { event: "User clicked affiliate link", date: "Feb 10, 2:30 PM", status: "Completed" },
+    { event: "User registered", date: "Feb 12, 10:15 AM", status: "Completed" },
+    { event: "Pre-Tenancy process started", date: "Feb 15, 9:00 AM", status: "Completed" },
+    { event: "Day 1 completed", date: "Feb 16, 11:30 AM", status: "Completed" },
+    { event: "Day 2 completed", date: "Feb 17, 3:45 PM", status: "Completed" },
+    { event: "Day 3 completed", date: "Feb 20, 1:20 PM", status: "Completed" },
+    { event: "Conversion completed", date: "Feb 22, 10:00 AM", status: "Completed" },
+  ];
   return (
     <div className="min-h-screen bg-gray-50">
       <AffiliateSidebar activePage="commissions" onNavigate={onNavigate} />
@@ -76,7 +88,7 @@ export default function CommissionsPage({ onNavigate }) {
         {/* Stats Row */}
         <div className="grid grid-cols-4 gap-3 mb-5">
           {[
-            { label: "Total Earned Revenue", val: "$62,410.00", sub: "↗ 12% from last month", subColor: "text-green-500" },
+            { label: "Total Referred Revenue", val: "$62,410.00", sub: "↗ 12% from last month", subColor: "text-green-500" },
             { label: "Commission Rate", val: "20%", sub: "Fixed base rate", subColor: "text-gray-400" },
             { label: "Total Commission", val: "$12,482.00", sub: "Processed to date", subColor: "text-gray-400" },
             { label: "Pending Payout", val: "$842.50", sub: "⏱ Next payout in 12 days", subColor: "text-amber-500", valColor: "text-amber-500" },
@@ -155,28 +167,41 @@ export default function CommissionsPage({ onNavigate }) {
           <table className="w-full text-[12px]">
             <thead>
               <tr className="border-b border-gray-100 text-[11px] text-gray-400 font-semibold uppercase tracking-wide">
-                <th className="text-left pb-3">Referral ID</th>
+                <th className="text-left pb-3">Referred User</th>
+                <th className="text-left pb-3">Referral Date</th>
+                <th className="text-left pb-3">Source</th>
                 <th className="text-left pb-3">Plan</th>
                 <th className="text-left pb-3">Revenue</th>
                 <th className="text-left pb-3">Your Commission (20%)</th>
                 <th className="text-left pb-3">Progress Stage</th>
-                <th className="text-left pb-3">Status</th>
+                <th className="text-left pb-3 text-right">Status</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
               {commissions.map((c) => (
-                <tr key={c.id}>
-                  <td className="py-3.5 font-semibold text-gray-700">{c.id}</td>
+                <tr 
+                  key={c.id} 
+                  onClick={() => setSelectedReferral(c)}
+                  className="hover:bg-gray-50 cursor-pointer transition-colors"
+                >
+                  <td className="py-3.5">
+                    <div className="text-[12px] font-bold text-gray-800">{c.user}</div>
+                    <div className="text-[10px] text-gray-400">{c.id}</div>
+                  </td>
+                  <td className="py-3.5 text-gray-600">{c.signupDate}</td>
+                  <td className="py-3.5">
+                    <span className="text-[10px] px-2 py-0.5 bg-gray-100 rounded-full font-bold text-gray-600 truncate max-w-[80px] inline-block">{c.source}</span>
+                  </td>
                   <td className="py-3.5 text-gray-600">{c.plan}</td>
                   <td className="py-3.5 text-gray-700">{c.revenue}</td>
                   <td className="py-3.5 font-bold text-blue-600">{c.commission}</td>
                   <td className="py-3.5">
                     <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${c.stageColor}`}>{c.stage}</span>
                   </td>
-                  <td className="py-3.5">
-                    <div className="flex items-center gap-1.5">
+                  <td className="py-3.5 text-right">
+                    <div className="flex items-center justify-end gap-1.5">
                       <span className={`w-2 h-2 rounded-full ${c.statusDot}`} />
-                      <span className="text-gray-600">{c.status}</span>
+                      <span className="text-gray-600 font-medium">{c.status}</span>
                     </div>
                   </td>
                 </tr>
@@ -195,6 +220,38 @@ export default function CommissionsPage({ onNavigate }) {
             </div>
           </div>
         </div>
+
+        {/* Activity Panel Overlay */}
+        {selectedReferral && (
+          <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex justify-end">
+            <div className="w-96 bg-white h-full shadow-2xl p-6 overflow-y-auto">
+              <div className="flex items-center justify-between mb-8">
+                <h3 className="text-lg font-bold text-gray-900">Referral Activity</h3>
+                <button onClick={() => setSelectedReferral(null)} className="p-2 hover:bg-gray-100 rounded-lg">
+                  <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </button>
+              </div>
+
+              <div className="mb-8 p-4 bg-gray-50 rounded-2xl border border-gray-100">
+                <div className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-2">Target User</div>
+                <div className="text-lg font-bold text-gray-900">{selectedReferral.user}</div>
+                <div className="text-[12px] text-gray-500">{selectedReferral.id} • Registered {selectedReferral.signupDate}</div>
+              </div>
+
+              <div className="relative pl-6 border-l-2 border-blue-100 ml-2 py-2">
+                {timelineEvents.map((evt, idx) => (
+                  <div key={idx} className="mb-8 last:mb-0 relative">
+                    <div className="absolute -left-[31px] top-1 w-3.5 h-3.5 rounded-full bg-blue-500 border-2 border-white shadow-sm" />
+                    <div>
+                      <div className="text-[13px] font-bold text-gray-800">{evt.event}</div>
+                      <div className="text-[11px] text-gray-400 font-medium">{evt.date}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );

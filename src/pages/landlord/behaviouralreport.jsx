@@ -9,7 +9,7 @@ const completedDays = [
 ];
 
 const lockedSections = [
-    { label: "Behavioral Drivers", unlockDay: "Day 5" },
+    { label: "Behavioral Drivers", unlockDay: "Day 4" },
     { label: "Stability Projection", unlockDay: "Day 5" },
     { label: "Risk Probability", unlockDay: "Day 6" },
     { label: "Recommended Action", unlockDay: "Day 7" },

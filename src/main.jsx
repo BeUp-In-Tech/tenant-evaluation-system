@@ -18,7 +18,6 @@ import PropertyStatusPage from './pages/landlord/propertyStatus.jsx'
 import TenantOverview from './pages/tenant/tenantOverview.jsx'
 import TenantReliability from './pages/tenant/tenantReliability.jsx'
 import TenantTask from './pages/tenant/tenantTask.jsx'
-import AffiliateOverview from './pages/affiliate/affiliateOverview.jsx'
 import AffiliateCommissions from './pages/affiliate/commissions.jsx'
 import Referral from './pages/affiliate/referral.jsx'
 import AffiliatePayout from './pages/affiliate/payout.jsx'
@@ -52,7 +51,6 @@ function App() {
           <Route path="/tenantMyReliability" element={<TenantReliability />} />
 
           {/* Affiliate Routes */}
-          <Route path="/affiliateOverview" element={<AffiliateOverview />} />
           <Route path="/affiliateReferral" element={<Referral />} />
           <Route path="/affiliateCommissions" element={<AffiliateCommissions />} />
           <Route path="/affiliatePayout" element={<AffiliatePayout />} />

@@ -14,11 +14,11 @@ const earlyWarnings = [
     { name: "Kevin Smith", detail: "Maple Heights A-31 • Integrity Score Drop", color: "bg-yellow-400" },
 ];
 
-const screenings = [
-    { name: "Alex Thompson", property: "Riverside Apt", score: "82%", status: "Manageable", statusColor: "bg-green-100 text-green-700", stage: "Stage 1 Complete" },
+const pretencys = [
+    { name: "Alex Thompson", property: "Riverside Apt", score: "82%", status: "Stable", statusColor: "bg-green-100 text-green-700", stage: "Stage 1 Complete" },
     { name: "Sarah Jenkins", property: "Lakeside Apt 40L", score: "66%", delta: "-5%", status: "Monitor", statusColor: "bg-yellow-100 text-yellow-700", stage: "Stage 2 Complete" },
     { name: "Marcus Vane", property: "Las Brias Drive", score: "54%", delta: "-14%", status: "Elevated Risk", statusColor: "bg-orange-100 text-orange-700", stage: "Ongoing Monitoring" },
-    { name: "Elena Rossi", property: "Maple Heights B/10", score: "80%", delta: "+16%", status: "Manageable", statusColor: "bg-green-100 text-green-700", stage: "Stage 1 Complete" },
+    { name: "Elena Rossi", property: "Maple Heights B/10", score: "80%", delta: "+16%", status: "Stable", statusColor: "bg-green-100 text-green-700", stage: "Stage 1 Complete" },
 ];
 
 export default function PortfolioOverviewPage({ onNavigate }) {
@@ -52,7 +52,7 @@ export default function PortfolioOverviewPage({ onNavigate }) {
                         { label: "Total Properties", val: "24", badge: "+2 added", badgeColor: "bg-green-100 text-green-600", icon: "🏢" },
                         { label: "Active Tenants", val: "186", badge: "+4.2%", badgeColor: "bg-green-100 text-green-600", icon: "👥" },
                         { label: "Vacancy Rate", val: "8.4%", badge: "-1.0%", badgeColor: "bg-red-100 text-red-500", icon: "📊" },
-                        { label: "Avg. Manageability", val: "92/100", badge: "-0.4%", badgeColor: "bg-red-100 text-red-500", icon: "📈" },
+                        { label: "Avg. Tenant Stability", val: "92/100", badge: "-0.4%", badgeColor: "bg-red-100 text-red-500", icon: "📈" },
                         { label: "Monitoring Status", val: "Active", icon: "✅" },
                     ].map((c) => (
                         <div key={c.label} className="bg-white border border-gray-100 rounded-xl p-4">
@@ -154,10 +154,10 @@ export default function PortfolioOverviewPage({ onNavigate }) {
                         </div>
                     </div>
 
-                    {/* Screening Pipeline */}
+                    {/* Pre-Tenancy Process */}
                     <div className="bg-white border border-gray-100 rounded-xl p-5">
                         <div className="flex items-center justify-between mb-4">
-                            <span className="text-[14px] font-semibold text-gray-800">Screening</span>
+                            <span className="text-[14px] font-semibold text-gray-800">Pre-Tenancy Process</span>
                             <button
                                 onClick={() => onNavigate("pre-tenancy")}
                                 className="flex items-center gap-1.5 bg-blue-600 text-white text-[12px] font-medium px-3 py-1.5 rounded-lg hover:bg-blue-700 transition-all"
@@ -172,7 +172,7 @@ export default function PortfolioOverviewPage({ onNavigate }) {
                             <span>APPLICANT</span><span>STATUS</span><span>DATE</span>
                         </div>
                         <div className="flex flex-col gap-2">
-                            {screenings.map((s) => (
+                            {pretencys.map((s) => (
                                 <div key={s.name} className="grid grid-cols-3 gap-2 items-center">
                                     <div>
                                         <div className="text-[12px] font-semibold text-gray-800">{s.name}</div>

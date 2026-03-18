@@ -29,11 +29,11 @@ export default function PreTenancyPage({ onNavigate }) {
         console.log('Searching applicants:', e.target.value);
     };
 
-    const filteredApplicants = applicants.filter(applicant => 
+    const filteredApplicants = applicants.filter(applicant =>
         applicant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         applicant.property.toLowerCase().includes(searchTerm.toLowerCase())
     );
-    
+
     return (
         <div className="min-h-screen bg-gray-50">
             <LandlordSidebar activePage="pre-tenancy" onNavigate={onNavigate} />
@@ -42,14 +42,14 @@ export default function PreTenancyPage({ onNavigate }) {
                 {/* Header */}
                 <div className="flex items-center justify-between mb-6">
                     <div>
-                        <h1 className="text-xl font-bold text-gray-900">Behavioural Screenings</h1>
+                        <h1 className="text-xl font-bold text-gray-900">Behavioural pretencys</h1>
                         <p className="text-[13px] text-gray-500 mt-0.5">Manage and track applicant integrity assessments</p>
                     </div>
                     <button className="flex items-center gap-2 bg-blue-600 text-white text-[13px] font-medium px-4 py-2 rounded-lg hover:bg-blue-700 transition-all">
                         <svg width="15" height="15" fill="none" viewBox="0 0 24 24">
                             <path d="M12 5v14M5 12h14" stroke="white" strokeWidth="2" strokeLinecap="round" />
                         </svg>
-                        New Screening
+                        New pretency
                     </button>
                 </div>
 
@@ -60,11 +60,11 @@ export default function PreTenancyPage({ onNavigate }) {
                             <circle cx="11" cy="11" r="8" stroke="currentColor" strokeWidth="1.8" />
                             <path d="M21 21l-4.35-4.35" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
                         </svg>
-                        <input 
+                        <input
                             value={searchTerm}
                             onChange={handleSearch}
-                            className="pl-9 pr-4 py-2 text-[13px] bg-white border border-gray-200 rounded-lg w-72 placeholder-gray-400 focus:outline-none focus:border-blue-300 transition-all" 
-                            placeholder="Search applicants, properties..." 
+                            className="pl-9 pr-4 py-2 text-[13px] bg-white border border-gray-200 rounded-lg w-72 placeholder-gray-400 focus:outline-none focus:border-blue-300 transition-all"
+                            placeholder="Search applicants, properties..."
                         />
                     </div>
                     <div className="flex items-center gap-2 border border-gray-200 bg-white rounded-lg px-3 py-2 text-[13px] text-gray-600 cursor-pointer hover:bg-gray-50">
