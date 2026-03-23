@@ -4,107 +4,85 @@ import LandlordTopbar from "../../component/landlordComponent/landlordTopbar.jsx
 
 const tenants = [
     {
-        name: "Jordan Hayes", property: "Stacie Heights A-152", level: "LEVEL 1",
-        riskTag: "ELEVATED RISK", riskColor: "text-orange-500", tagBg: "bg-orange-100",
-        riskPct: 42, riskBarColor: "bg-orange-400",
-        participation: 58, participationDelta: "+18%", participationNote: "Missed 3 engagement cycles this week",
+        name: "Marcus Vane", property: "Las Brias Drive", level: "Monitor",
+        riskTag: "Elevated Risk", riskColor: "text-red-600", tagBg: "bg-red-50",
+        participation: 54, participationDelta: "-14%", participationNote: "Multiple missed response windows",
         noteColor: "text-red-500",
-        primaryAction: { label: "Contact Tenant", color: "bg-red-500 hover:bg-red-600 text-white" },
+        priority: 1
     },
     {
-        name: "Jordan Hayes", property: "Stacie Heights A-152", level: "LEVEL 2",
-        riskTag: "ELEVATED RISK", riskColor: "text-orange-500", tagBg: "bg-orange-100",
-        riskPct: 42, riskBarColor: "bg-orange-400",
-        participation: 68, participationDelta: "+18%", participationNote: "1 alert requires action",
+        name: "Jordan Hayes", property: "Stacie Heights A-152", level: "Trial",
+        riskTag: "Monitor", riskColor: "text-orange-600", tagBg: "bg-orange-50",
+        participation: 68, participationDelta: "-5%", participationNote: "Slight delay in response timing",
         noteColor: "text-orange-500",
-        primaryAction: { label: "Review Engagement", color: "bg-orange-500 hover:bg-orange-600 text-white" },
+        priority: 2
     },
     {
-        name: "Sarah Chen", property: "Lakeside Terrace A-52", level: "LEVEL 1",
-        riskTag: "STABLE", riskColor: "text-green-600", tagBg: "bg-green-100",
-        riskPct: 98, riskBarColor: "bg-green-400",
-        participation: 91, participationDelta: "+2%", participationNote: "All tasks are confirmed to continue.",
+        name: "Sarah Chen", property: "Lakeside Terrace A-52", level: "Active",
+        riskTag: "Stable", riskColor: "text-green-600", tagBg: "bg-green-50",
+        participation: 91, participationDelta: "+2%", participationNote: "Consistent engagement patterns",
         noteColor: "text-green-600",
-        primaryAction: { label: "Reward Program", color: "bg-green-500 hover:bg-green-600 text-white" },
+        priority: 3
     },
     {
-        name: "Linda Wu", property: "Maple Heights A-185", level: "LEVEL 1",
-        riskTag: "STABLE", riskColor: "text-green-600", tagBg: "bg-green-100",
-        riskPct: 53, riskBarColor: "bg-green-400",
-        participation: 91, participationDelta: "+2%", participationNote: "All tasks are confirmed to continue.",
+        name: "Linda Wu", property: "Maple Heights A-185", level: "Active",
+        riskTag: "Stable", riskColor: "text-green-600", tagBg: "bg-green-50",
+        participation: 94, participationDelta: "+1%", participationNote: "All integrity checks passed",
         noteColor: "text-green-600",
-        primaryAction: { label: "Reward Program", color: "bg-green-500 hover:bg-green-600 text-white" },
+        priority: 3
     },
 ];
 
+
 function TenantCard({ t }) {
+    const getParticipationColor = (pct) => {
+        if (pct >= 80) return "bg-green-500";
+        if (pct >= 60) return "bg-orange-500";
+        return "bg-red-500";
+    };
+
     return (
-        <div className="bg-white border border-gray-100 rounded-xl p-5">
-            <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-bold text-[13px]">
+        <div className="bg-white border border-gray-100 rounded-2xl p-6 mb-4 hover:shadow-md transition-all">
+            <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4 flex-1">
+                    <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 font-bold text-[14px]">
                         {t.name.split(" ").map(n => n[0]).join("")}
                     </div>
-                    <div>
-                        <div className="text-[14px] font-semibold text-gray-900">{t.name}</div>
-                        <div className="text-[11px] text-gray-400">{t.property}</div>
+                    <div className="grid grid-cols-4 flex-1 gap-8">
+                        <div>
+                            <div className="text-[15px] font-bold text-gray-900">{t.name}</div>
+                            <div className="text-[12px] text-gray-400">{t.property}</div>
+                        </div>
+                        <div>
+                            <div className="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-1">Status</div>
+                            <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full ${t.tagBg} ${t.riskColor}`}>{t.riskTag}</span>
+                        </div>
+                        <div>
+                            <div className="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-1">Participation</div>
+                            <div className="flex items-center gap-2">
+                                <div className={`w-2 h-2 rounded-full ${getParticipationColor(t.participation)}`} />
+                                <span className="text-[15px] font-bold text-gray-900">{t.participation}%</span>
+                            </div>
+                        </div>
+                        <div>
+                            <div className="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-1">Observations</div>
+                            <div className={`text-[12px] font-medium ${t.noteColor}`}>{t.participationNote}</div>
+                        </div>
                     </div>
                 </div>
-                <div className="text-right">
-                    <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${t.tagBg} ${t.riskColor}`}>{t.riskTag}</span>
-                    <div className="text-[10px] text-gray-400 mt-0.5">{t.level}</div>
+                <div className="flex gap-3 ml-8">
+                    <button className="px-5 py-2.5 bg-blue-600 text-white text-[13px] font-bold rounded-xl hover:bg-blue-700 transition-all">
+                        Follow Up With Tenant
+                    </button>
+                    <button className="px-5 py-2.5 border border-gray-200 text-gray-600 text-[13px] font-bold rounded-xl hover:bg-gray-50 transition-all">
+                        View Details
+                    </button>
                 </div>
-            </div>
-
-            {/* Behavioral Risk Level */}
-            {/* <div className="mb-3">
-                <div className="flex items-center justify-between mb-1">
-                    <span className="text-[10px] text-gray-400 font-semibold uppercase tracking-wide">Behavioural Risk Level</span>
-                    <span className={`text-[12px] font-bold ${t.riskColor}`}>{t.riskPct}%</span>
-                </div>
-                <div className="w-full h-2 bg-gray-100 rounded-full">
-                    <div className={`h-2 rounded-full ${t.riskBarColor}`} style={{ width: `${t.riskPct}%` }} />
-                </div>
-            </div> */}
-
-            {/* Participation */}
-            <div className="mb-4">
-                <div className="flex items-center justify-between mb-0.5">
-                    <span className="text-[10px] text-gray-400 font-semibold uppercase tracking-wide">Participation (30D)</span>
-                </div>
-                <div className="flex items-center gap-2">
-                    <span className="text-xl font-bold text-gray-900">{t.participation}%</span>
-                    <span className="text-[11px] text-gray-500">{t.participationDelta}</span>
-                </div>
-                <div className={`text-[11px] mt-0.5 ${t.noteColor}`}>{t.participationNote}</div>
-            </div>
-
-            {/* Action Icons */}
-            <div className="flex items-center justify-between">
-                <div className="flex gap-2">
-                    {["chat", "flag", "doc"].map((icon) => (
-                        <button key={icon} className="w-7 h-7 rounded-lg border border-gray-200 flex items-center justify-center hover:bg-gray-50 text-gray-400">
-                            {icon === "chat" && <svg width="12" height="12" fill="none" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="currentColor" strokeWidth="1.8" /></svg>}
-                            {icon === "flag" && <svg width="12" height="12" fill="none" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" stroke="currentColor" strokeWidth="1.8" /><line x1="4" y1="22" x2="4" y2="15" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>}
-                            {icon === "doc" && <svg width="12" height="12" fill="none" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" strokeWidth="1.8" /><polyline points="14 2 14 8 20 8" stroke="currentColor" strokeWidth="1.8" /></svg>}
-                        </button>
-                    ))}
-                </div>
-                <button className="text-[11px] text-blue-500 hover:underline">↗ View Behaviour Timeline</button>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex gap-2 mt-4">
-                <button className={`flex-1 py-2 rounded-lg text-[12px] font-semibold transition-all ${t.primaryAction.color}`}>
-                    {t.primaryAction.label}
-                </button>
-                <button className="flex-1 py-2 rounded-lg text-[12px] font-semibold border border-gray-200 text-gray-600 hover:bg-gray-50 transition-all">
-                    View Details
-                </button>
             </div>
         </div>
     );
 }
+
 
 export default function BehaviouralRiskPage({ onNavigate }) {
     const [activeTab, setActiveTab] = useState("All");
@@ -152,12 +130,12 @@ export default function BehaviouralRiskPage({ onNavigate }) {
             <LandlordSidebar activePage="behavioural-risk" onNavigate={onNavigate} />
             <LandlordTopbar />
             <main className="ml-52 pt-14 p-6">
-                {/* Header */}
-                <div className="flex items-center justify-between mb-5">
+                <div className="flex items-center justify-between mb-8">
                     <div>
-                        <h1 className="text-xl font-bold text-gray-900">Behavioral Risk Profiles</h1>
-                        <p className="text-[13px] text-gray-500 mt-0.5">Comprehensive behavioral tracking and integrity scores for all active tenants.</p>
+                        <h1 className="text-2xl font-bold text-gray-900">Tenant Risk Monitor</h1>
+                        <p className="text-[14px] text-gray-500 mt-1">Monitor tenant behavioral signals and participation trends across your properties.</p>
                     </div>
+
                     <button className="flex items-center gap-2 border border-gray-200 text-gray-700 text-[13px] font-medium px-4 py-2 rounded-lg hover:bg-gray-50 transition-all">
                         <svg width="14" height="14" fill="none" viewBox="0 0 24 24">
                             <line x1="8" y1="6" x2="21" y2="6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
@@ -171,22 +149,26 @@ export default function BehaviouralRiskPage({ onNavigate }) {
                     </button>
                 </div>
 
-                {/* Summary */}
-                <div className="grid grid-cols-3 gap-3 mb-6">
+                {/* Summary Cards */}
+                <div className="grid grid-cols-3 gap-6 mb-8">
                     {[
-                        { label: "Requires Attention", val: "2", icon: <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" stroke="#ef4444" strokeWidth="1.8" /></svg>, color: "text-red-500" },
-                        { label: "Early Warning Signals", val: "2", icon: <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="#f59e0b" strokeWidth="1.8" /><path d="M12 8v4" stroke="#f59e0b" strokeWidth="1.8" strokeLinecap="round" /><circle cx="12" cy="16" r="1" fill="#f59e0b" /></svg>, color: "text-amber-500" },
-                        { label: "Stable Participation", val: "4", icon: <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="#22c55e" strokeWidth="1.8" /><path d="M8 12l3 3 5-5" stroke="#22c55e" strokeWidth="1.8" strokeLinecap="round" /></svg>, color: "text-green-500" },
+                        { label: "Requires Attention", val: "1", pct: "25%", bg: "bg-red-50", color: "text-red-700", dot: "bg-red-500" },
+                        { label: "Early Warning Signals", val: "1", pct: "25%", bg: "bg-orange-50", color: "text-orange-700", dot: "bg-orange-500" },
+                        { label: "Stable Participation", val: "2", pct: "50%", bg: "bg-green-50", color: "text-green-700", dot: "bg-green-500" },
                     ].map((s) => (
-                        <div key={s.label} className="bg-white border border-gray-100 rounded-xl p-4 flex items-center gap-4">
-                            {s.icon}
-                            <div>
-                                <div className="text-[10px] text-gray-400 font-semibold uppercase tracking-wide">{s.label}</div>
-                                <div className={`text-2xl font-bold ${s.color}`}>{s.val}</div>
+                        <div key={s.label} className={`${s.bg} rounded-2xl p-6 border border-transparent hover:border-gray-200 transition-all`}>
+                            <div className="flex items-center justify-between mb-3">
+                                <div className="flex items-center gap-2">
+                                    <span className={`w-2.5 h-2.5 rounded-full ${s.dot}`} />
+                                    <span className={`text-[12px] font-bold uppercase tracking-wider ${s.color}`}>{s.label}</span>
+                                </div>
+                                <span className={`${s.color} text-[12px] font-bold`}>{s.pct}</span>
                             </div>
+                            <div className={`text-3xl font-bold ${s.color}`}>{s.val}</div>
                         </div>
                     ))}
                 </div>
+
 
                 {/* Filter Tabs */}
                 <div className="flex items-center justify-between mb-4">
@@ -215,10 +197,13 @@ export default function BehaviouralRiskPage({ onNavigate }) {
                     </div>
                 </div>
 
-                {/* Cards Grid */}
-                <div className="grid grid-cols-2 gap-4">
-                    {filteredTenants.map((t, i) => <TenantCard key={i} t={t} />)}
+                {/* Cards List (Single Column) */}
+                <div className="flex flex-col gap-4">
+                    {filteredTenants
+                        .sort((a, b) => a.priority - b.priority)
+                        .map((t, i) => <TenantCard key={i} t={t} />)}
                 </div>
+
             </main>
         </div>
     );

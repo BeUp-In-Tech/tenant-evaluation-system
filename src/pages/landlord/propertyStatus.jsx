@@ -5,7 +5,7 @@ const properties = [
     {
         id: "oakridge",
         name: "Oak Ridge Tower",
-        status: "TRIAL MONITORING",
+        status: "Trial",
         statusColor: "text-amber-600",
         statusBg: "bg-amber-100",
         sub: "13 days remaining in trial",
@@ -19,7 +19,7 @@ const properties = [
     {
         id: "riverside",
         name: "Riverside Apt",
-        status: "PRE-TENANCY PROCESS ACTIVE",
+        status: "Process Active",
         statusColor: "text-blue-600",
         statusBg: "bg-blue-100",
         sub: "Day 4 of 7 in progress",
@@ -32,7 +32,7 @@ const properties = [
     {
         id: "maple",
         name: "Maple Heights",
-        status: "VACANT PROPERTY",
+        status: "Vacant",
         statusColor: "text-gray-400",
         statusBg: "bg-gray-100",
         sub: "No tenant screening started for this property",
@@ -44,7 +44,7 @@ const properties = [
     {
         id: "grand",
         name: "Grand Plaza",
-        status: "MONITORING ACTIVE",
+        status: "Active",
         statusColor: "text-green-600",
         statusBg: "bg-green-100",
         sub: "80 monitoring cycles remaining",
@@ -57,14 +57,16 @@ const properties = [
     },
 ];
 
+
 export default function PropertyStatusPage({ onNavigate }) {
     return (
         <div className="min-h-screen bg-gray-50">
             <LandlordSidebar activePage="property-status" onNavigate={onNavigate} />
             <LandlordTopbar />
             <main className="ml-52 pt-14 p-6">
-                <h1 className="text-xl font-bold text-gray-900 mb-1">Property Integrity Control Center</h1>
-                <p className="text-[13px] text-gray-500 mb-6">Track tenant Pre-Tenancy progress and ongoing behavioral monitoring for each property.</p>
+                <h1 className="text-2xl font-bold text-gray-900 mb-1">Property Integrity Control Center</h1>
+                <p className="text-[14px] text-gray-500 mb-8">Track tenant Pre-Tenancy progress and ongoing behavioral monitoring for each property.</p>
+
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {properties.sort((a, b) => a.priority - b.priority).map((p) => (
@@ -77,9 +79,10 @@ export default function PropertyStatusPage({ onNavigate }) {
                                     </div>
                                     <div className="text-[15px] font-bold text-gray-900">{p.name}</div>
                                 </div>
-                                <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full ${p.statusBg} ${p.statusColor}`}>
+                                <span className={`text-[11px] font-bold px-3 py-1 rounded-full ${p.statusBg} ${p.statusColor}`}>
                                     {p.status}
                                 </span>
+
                             </div>
 
                             {/* Sub info */}
@@ -98,22 +101,23 @@ export default function PropertyStatusPage({ onNavigate }) {
                                 {p.participation !== undefined && (
                                     <div className="mt-2">
                                         <div className="flex items-center justify-between mb-1">
-                                            <span className="text-[11px] text-gray-500">Tenant participation: <span className="font-semibold text-gray-900">{p.participation}%</span></span>
-                                            <span className={`text-[10px] font-bold ${p.participation >= 85 ? 'text-green-600' : 'text-amber-600'}`}>
+                                            <span className="text-[12px] text-gray-500">Tenant participation: <span className="font-semibold text-gray-900">{p.participation}%</span></span>
+                                            <span className={`text-[11px] font-bold ${p.healthStatus === 'Healthy' ? 'text-green-600' : (p.healthStatus === 'Critical' ? 'text-red-600' : 'text-amber-600')}`}>
                                                 {p.healthStatus}
                                             </span>
                                         </div>
-                                        <div className="w-full h-1.5 bg-gray-100 rounded-full">
+                                        <div className="w-full h-2 bg-gray-100 rounded-full">
                                             <div
-                                                className={`h-1.5 rounded-full ${p.participation >= 85 ? "bg-green-500" :
-                                                        p.participation >= 70 ? "bg-amber-400" :
-                                                            "bg-red-500"
+                                                className={`h-2 rounded-full ${p.healthStatus === 'Healthy' ? "bg-green-500" :
+                                                        p.healthStatus === 'Critical' ? "bg-red-500" :
+                                                            "bg-amber-400"
                                                     }`}
                                                 style={{ width: `${p.participation}%` }}
                                             />
                                         </div>
                                     </div>
                                 )}
+
                             </div>
 
                             {/* Actions */}

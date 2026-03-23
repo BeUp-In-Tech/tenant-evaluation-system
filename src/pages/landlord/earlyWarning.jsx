@@ -8,14 +8,15 @@ const initialCriticalTenants = [
         address: "1016 Craig St",
         unit: "Unit 402 • 2yr Tenant",
         participation: 72,
-        prevParticipation: 84,
-        delta: "↓ 12%",
+        prevParticipation: 88,
+        delta: "↓ 16%",
         trend: "down",
-        severity: "High Risk",
+        severity: "High",
         severityColor: "text-red-600 bg-red-100",
         detected: "2 days ago",
         isNew: true,
-        observation: "Behavioral shifts detected in payment patterns and reduced property engagement since 01/123.",
+        observation: "Participation dropped from 88% to 72% in the last 7 days. Behavioral shifts detected in communication patterns.",
+        priority: 1
     },
     {
         id: 2,
@@ -23,14 +24,15 @@ const initialCriticalTenants = [
         address: "742 Evergreen Terrace",
         unit: "Unit 115 • 8yr Tenant",
         participation: 55,
-        prevParticipation: 88,
-        delta: "↓ 23%",
+        prevParticipation: 85,
+        delta: "↓ 30%",
         trend: "down",
-        severity: "Critical",
+        severity: "High",
         severityColor: "text-red-700 bg-red-200",
         detected: "5 hours ago",
         isNew: true,
-        observation: "Multiple missed community events and late responses to mandatory maintenance scheduling.",
+        observation: "Participation dropped from 85% to 55% in the last 7 days. Multiple missed response cycles.",
+        priority: 1
     },
     {
         id: 3,
@@ -38,16 +40,34 @@ const initialCriticalTenants = [
         address: "125 Oak St",
         unit: "Unit 204 • 1yr Tenant",
         participation: 78,
-        prevParticipation: 82,
-        delta: "↓ 4%",
+        prevParticipation: 84,
+        delta: "↓ 6%",
         trend: "down",
         severity: "Moderate",
         severityColor: "text-amber-600 bg-amber-100",
         detected: "3 days ago",
         isNew: false,
+        observation: "Participation dropped from 84% to 78% in the last 7 days. Slight delay in response timing.",
+        priority: 2
+    },
+    {
+        id: 4,
+        name: "Sarah Jenkins",
+        address: "404 Lakeview",
+        unit: "Unit 505 • 4yr Tenant",
+        participation: 82,
+        prevParticipation: 90,
+        delta: "↓ 8%",
+        trend: "down",
+        severity: "Low",
+        severityColor: "text-blue-600 bg-blue-100",
+        detected: "1 day ago",
+        isNew: false,
         observation: "Slight decrease in platform engagement scores over the last billing cycle.",
+        priority: 3
     },
 ];
+
 
 const resolved = [
     {
@@ -77,10 +97,8 @@ export default function EarlyWarningsPage({ onNavigate }) {
         handleAction(id, "Alert marked as reviewed");
     };
 
-    const sortedAlerts = [...alerts].sort((a, b) => {
-        const severityMap = { "Critical": 1, "High Risk": 2, "Moderate": 3 };
-        return severityMap[a.severity] - severityMap[b.severity];
-    });
+    const sortedAlerts = [...alerts].sort((a, b) => a.priority - b.priority);
+
 
     const getTrendIcon = (trend, pct) => {
         if (pct >= 85) return "🟢";
@@ -106,10 +124,14 @@ export default function EarlyWarningsPage({ onNavigate }) {
                 </p>
 
                 {feedback && (
-                    <div className="fixed top-20 right-10 bg-gray-900 text-white text-[12px] px-4 py-2 rounded-lg shadow-lg z-50 animate-fade-in-out">
+                    <div className="fixed top-20 right-10 bg-green-600 text-white text-[14px] font-bold px-6 py-3 rounded-2xl shadow-xl z-50 animate-bounce flex items-center gap-2 border-2 border-white">
+                        <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+                            <path d="M5 13l4 4L19 7" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
                         {feedback}
                     </div>
                 )}
+
 
                 {/* Critical Attention */}
                 <div className="flex items-center gap-2 mb-4">
@@ -166,43 +188,47 @@ export default function EarlyWarningsPage({ onNavigate }) {
                                     <div className="flex-1">
                                         <button
                                             onClick={() => handleAction(t.id, "Check-in message sent")}
-                                            className="w-full py-2 bg-blue-600 text-white text-[12px] font-semibold rounded-lg hover:bg-blue-700 transition-all"
+                                            className="w-full py-2.5 bg-blue-600 text-white text-[13px] font-bold rounded-xl hover:bg-blue-700 transition-all shadow-sm"
                                         >
                                             Check In With Tenant
                                         </button>
-                                        <div className="text-[9px] text-gray-400 mt-1 text-center font-medium">Send a quick message to confirm everything is okay.</div>
+                                        <div className="text-[10px] text-gray-400 mt-1.5 text-center font-medium">Send a quick message to confirm status.</div>
                                     </div>
                                     <div className="flex-1">
                                         <button
                                             onClick={() => handleAction(t.id, "Tenant marked for monitoring")}
-                                            className="w-full py-2 text-[12px] text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-all font-semibold"
+                                            className="w-full py-2.5 text-[13px] text-gray-700 border-2 border-gray-100 rounded-xl hover:bg-gray-50 transition-all font-bold"
                                         >
                                             Mark for Monitoring
                                         </button>
-                                        <div className="text-[9px] text-gray-400 mt-1 text-center font-medium">Add this tenant to your watch list.</div>
+                                        <div className="text-[10px] text-gray-400 mt-1.5 text-center font-medium">Add this tenant to your watch list.</div>
                                     </div>
                                 </div>
                                 <div className="flex gap-2">
                                     <div className="flex-1">
                                         <button
-                                            onClick={() => handleAction(t.id, "Review reminder scheduled")}
-                                            className="w-full py-2 text-[12px] text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-all font-semibold"
+                                            onClick={() => handleAction(t.id, "Review scheduled")}
+                                            className="w-full py-2.5 text-[13px] text-gray-700 border-2 border-gray-100 rounded-xl hover:bg-gray-50 transition-all font-bold"
                                         >
                                             Schedule Participation Review
                                         </button>
-                                        <div className="text-[9px] text-gray-400 mt-1 text-center font-medium">Set a reminder to review the engagement pattern.</div>
+                                        <div className="text-[10px] text-gray-400 mt-1.5 text-center font-medium">Set a reminder to review engagement.</div>
                                     </div>
                                     <div className="flex-1">
                                         <button
                                             onClick={() => markAsReviewed(t.id)}
-                                            className="w-full py-2 text-[12px] text-green-600 border border-green-200 rounded-lg hover:bg-green-50 transition-all font-semibold flex items-center justify-center gap-1"
+                                            className="w-full py-2.5 text-[13px] text-green-700 border-2 border-green-100 bg-green-50 rounded-xl hover:bg-green-100 transition-all font-bold flex items-center justify-center gap-1.5"
                                         >
-                                            ✓ Mark as Reviewed
+                                            <svg width="14" height="14" fill="none" viewBox="0 0 24 24">
+                                                <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                                            </svg>
+                                            Mark as Reviewed
                                         </button>
-                                        <div className="text-[9px] text-gray-400 mt-1 text-center font-medium">Dismiss this alert from the priority list.</div>
+                                        <div className="text-[10px] text-gray-400 mt-1.5 text-center font-medium">Dismiss this alert from the list.</div>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     ))}
                 </div>

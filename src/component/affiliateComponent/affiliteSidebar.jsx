@@ -1,7 +1,6 @@
 import { useNavigate, NavLink } from "react-router-dom";
 
 const menuToRoute = {
-  'overview': '/affiliateOverview',
   'referrals': '/affiliateReferral',
   'commissions': '/affiliateCommissions',
   'payout': '/affiliatePayout',
