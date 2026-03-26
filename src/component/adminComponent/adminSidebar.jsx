@@ -9,12 +9,12 @@ const menuRoutes = {
   'tasks': '/adminTasks',
 };
 
-const routeToMenu = {
-  '/adminOverview': 'overview',
-  '/adminIntegration': 'integration',
-  '/adminRoles': 'roles',
-  '/adminTasks': 'tasks',
-};
+// const routeToMenu = {
+//   '/adminOverview': 'overview',
+//   '/adminIntegration': 'integration',
+//   '/adminRoles': 'roles',
+//   '/adminTasks': 'tasks',
+// };
 
 const NAV_ITEMS = [
   {
@@ -68,8 +68,8 @@ export default function Sidebar({ activePage, onNavigate }) {
   const { isCollapsed, toggleSidebar } = useSidebar();
 
   const handleLogout = () => {
-    // Simulate logout functionality
-    alert('Logging out...');
+    alert('Logout from admin panel');
+    // Clear any auth state or tokens here if needed
     navigate('/');
   };
 

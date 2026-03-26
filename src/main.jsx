@@ -1,10 +1,13 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import { Routes, Route, BrowserRouter } from 'react-router-dom'
+import { Routes, Route, BrowserRouter, useNavigate } from 'react-router-dom'
 import { SidebarProvider } from './contexts/SidebarContext.jsx'
 
 // Import all pages
+import LoginPage from './auth/login.jsx'
+import ForgotPasswordPage from './auth/forgotPassword.jsx'
+import ResetPasswordPage from './auth/resetPassword.jsx'
 import OverviewPage from './pages/admin/adminOverview.jsx'
 import IntegrityPage from './pages/admin/adminIntegration.jsx'
 import RolesPage from './pages/admin/adminRole.jsx'
@@ -28,9 +31,12 @@ function App() {
     <SidebarProvider>
       <BrowserRouter>
         <Routes>
-          {/* Default redirect to admin overview */}
-          <Route path="/" element={<OverviewPage />} />
-          
+          {/* Login page */}
+          <Route path="/" element={<LoginPageWrapper />} />
+          <Route path="/login" element={<LoginPageWrapper />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
+                    
           {/* Admin Routes */}
           <Route path="/adminOverview" element={<OverviewPage />} />
           <Route path="/adminIntegration" element={<IntegrityPage />} />
@@ -58,6 +64,37 @@ function App() {
       </BrowserRouter>
     </SidebarProvider>
   )
+}
+
+// Wrapper component to handle login navigation
+function LoginPageWrapper() {
+  const navigate = useNavigate();
+
+  const handleLogin = (role) => {
+    // Redirect to appropriate overview page based on role
+    switch (role) {
+      case 'superadmin':
+        navigate('/adminOverview');
+        break;
+      case 'landlord':
+        navigate('/landlordOverview');
+        break;
+      case 'tenant':
+        navigate('/tenantOverview');
+        break;
+      case 'affiliate':
+        navigate('/affiliateCommissions');
+        break;
+      default:
+        navigate('/');
+    }
+  };
+
+  const handleForgotPassword = () => {
+    navigate('/forgot-password');
+  };
+
+  return <LoginPage onLogin={handleLogin} onForgotPassword={handleForgotPassword} />;
 }
 
 createRoot(document.getElementById('root')).render(
